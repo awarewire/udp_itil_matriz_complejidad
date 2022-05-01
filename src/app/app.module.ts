@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatrizComplejidadComponent } from './pages/matriz-complejidad/matriz-complejidad.component';
+import {FormsModule} from "@angular/forms";
+import {MaterialModule} from "./material/material.module";
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { MatrizComplejidadComponent } from './pages/matriz-complejidad/matriz-co
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
