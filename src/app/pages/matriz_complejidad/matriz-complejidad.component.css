@@ -1,0 +1,32 @@
+table {
+  width: 100%;
+}
+
+.demo-table {
+  width: 100%;
+}
+
+.mat-column-atributo-de-negocio {
+  border-right: 1px solid currentColor;
+  padding-right: 10px;
+  text-align: justify-all;
+  vertical-align: middle;
+}
+
+.mat-column-zona-I{
+  padding-left: 16px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.mat-column-zona-II{
+  padding-left: 16px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.mat-column-zona-III{
+  padding-left: 16px;
+  text-align: center;
+  vertical-align: middle;
+}

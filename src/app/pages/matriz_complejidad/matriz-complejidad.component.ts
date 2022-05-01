@@ -13,6 +13,9 @@ export class MatrizComplejidadComponent implements OnInit {
   complejidadNegocio: Array<MatrizComplejidad> = [];
 
   displayedColumns = ['atributo-de-negocio', 'zona-I', 'zona-II', 'zona-III'];
+  items = ['Item 1', 'Item 2', 'Item 3'];
+  expandedIndex = 0;
+
   dataSource!: MatTableDataSource<MatrizComplejidad>;
 
   constructor() {
