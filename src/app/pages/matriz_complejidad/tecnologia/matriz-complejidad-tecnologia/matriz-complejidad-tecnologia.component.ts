@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {MatrizComplejidad} from "../../../../_model/MatrizComplejidad";
 import {MatTableDataSource} from "@angular/material/table";
 import {Atributo} from "../../../../_model/Atributo";
+import {MatSelect} from "@angular/material/select";
+import {MatRadioButton} from "@angular/material/radio";
 
 @Component({
   selector: 'app-matriz-complejidad-tecnologia',
@@ -10,61 +12,189 @@ import {Atributo} from "../../../../_model/Atributo";
 })
 export class MatrizComplejidadTecnologiaComponent implements OnInit {
 
-  complejidadNegocio: Array<MatrizComplejidad> = [];
+  @ViewChildren("selectsZonaBaja") private selectsZonaBaja: QueryList<MatRadioButton> | undefined;
+  @ViewChildren("selectsZonaMedia") private selectsZonaMedia: QueryList<MatRadioButton> | undefined;
+  @ViewChildren("selectsZonaAlta") private selectsZonaAlta: QueryList<MatRadioButton> | undefined;
+
+  @Input()
+  complejidadTecnologica: Array<MatrizComplejidad> = [];
+
+  @Output()
+  emisor = new EventEmitter();
 
   displayedColumns = ['atributo-de-negocio', 'zona-I', 'zona-II', 'zona-III'];
-  items = ['Item 1', 'Item 2', 'Item 3'];
-  expandedIndex = 0;
-
   dataSource!: MatTableDataSource<MatrizComplejidad>;
+  totalSumaZonaBaja: number = 0;
+  totalSumaZonaMedia: number = 0;
+  totalSumaZonaAlta: number = 0;
+  totalPuntosTecnologicos: number = 0;
 
   constructor() {
-
-    let matrizComplejidad = this.addMatrizComplejidad("Arquitectura tecnológica del proyecto",
-      "Existe en la empresa", "Existe, pero no desarrolladas", "Inexistente en la empresa");
-    this.complejidadNegocio.push(matrizComplejidad);
-
-    matrizComplejidad = this.addMatrizComplejidad("Proveedores de Tecnología y telecomunicaciones",
-      "Antiguos, con presencia de más 4 años en el mercado", "Antiguos, con presencia de menos de 4 años en el mercado", "Nuevos");
-    this.complejidadNegocio.push(matrizComplejidad);
-
-    matrizComplejidad = this.addMatrizComplejidad("Localización de los dispositivos a controlar",
-      "Una", "Entre 3 y 4 localizaciones", "5 o más");
-    this.complejidadNegocio.push(matrizComplejidad);
-
-    matrizComplejidad = this.addMatrizComplejidad("Personal de áreas tecnológicas",
-      "Experimentado, más de 2 anos.", "Menos de 2 años de experiencia", "Sin experiencia");
-    this.complejidadNegocio.push(matrizComplejidad);
-
-    matrizComplejidad = this.addMatrizComplejidad("Cantidad de plataformas",
-      "Pocas (1 a 3)", "4", "Muchas (más de 4)");
-    this.complejidadNegocio.push(matrizComplejidad);
-
-    matrizComplejidad = this.addMatrizComplejidad("Nivel de integración de las distintas plataformas, actualmente",
-      "Integradas", "Medianamente integradas", "Sin integración");
-    this.complejidadNegocio.push(matrizComplejidad);
-
-    matrizComplejidad = this.addMatrizComplejidad("Plataformas tolerantes a fallas o redundantes",
-      "Muchas (Mayor a 70%)", "Entre 30% y 69% ", "Menos de 30%");
-    this.complejidadNegocio.push(matrizComplejidad);
-
-    matrizComplejidad = this.addMatrizComplejidad("Antigüedad de la tecnología (Obsolescencia)",
-      "Menos de una año", "De 1 a 2 años", "Mas de 2 años");
-    this.complejidadNegocio.push(matrizComplejidad);
-
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.complejidadNegocio);
+    this.dataSource = new MatTableDataSource(this.complejidadTecnologica);
   }
 
-  addMatrizComplejidad(nombre: string, zonaBaja: string, zonaMedia: string, zonaAlta:string): MatrizComplejidad{
+  calcularSumaTotalZonaBaja() {
+    let suma = 0;
+    this.complejidadTecnologica.forEach(function(item) {
+      suma = suma + Number(item.zonaBaja.valor);
+    });
+    this.totalSumaZonaBaja = suma;
+    return this.totalSumaZonaBaja;
+  }
 
-    let atributoZonaBaja = new Atributo(zonaBaja);
-    let atributoZonaMedia = new Atributo(zonaMedia);
-    let atributoZonaAlta = new Atributo(zonaAlta);
+  calcularSumaTotalZonaMedia() {
+    let suma = 0;
+    this.complejidadTecnologica.forEach((item) =>{
+      suma = suma + Number(item.zonaMedia.valor);
+    });
+    this.totalSumaZonaMedia = suma;
+    return this.totalSumaZonaMedia;
+  }
 
-    return new MatrizComplejidad(nombre, atributoZonaBaja, atributoZonaMedia, atributoZonaAlta);
+  calcularSumaTotalZonaAlta() {
+    let suma = 0;
+    this.complejidadTecnologica.forEach((item) =>{
+      suma = suma + Number(item.zonaAlta.valor);
+    });
+    this.totalSumaZonaAlta = suma;
+    return this.totalSumaZonaAlta;
+  }
+
+  calcularSumaTotal(){
+    this.totalPuntosTecnologicos = this.calcularSumaTotalZonaBaja() + this.calcularSumaTotalZonaMedia() + this.calcularSumaTotalZonaAlta();
+    this.emisor.emit(this.totalPuntosTecnologicos);
+    return this.totalPuntosTecnologicos;
+  }
+
+  onChange($event: any, $row: any) {
+    console.log($event.source.id);
+    this.selectsZonaBaja?.forEach((itemBaja)=>{
+      let i = 0;
+      if($event.source.id === itemBaja.id){
+        let i = Number(($event.source.id).replace('mat-select-',''));
+        //Tenemos que deseleccionar el combo 2 y 3
+        let idSelect2 = 'mat-select-' + (i + 2);
+        let idSelect3 = 'mat-select-' + (i + 4);
+        this.selectsZonaMedia?.forEach(itemMedia => {
+          if(idSelect2 === itemMedia.id) {
+            itemMedia.value = null;
+          }
+        });
+        this.selectsZonaAlta?.forEach(itemAlta => {
+          if(idSelect3 === itemAlta.id) {
+            itemAlta.value = null;
+          }
+        });
+      }
+      i++;
+    });
+
+    this.selectsZonaMedia?.forEach((itemMedia)=>{
+      let i = 0;
+      if($event.source.id === itemMedia.id){
+        let i = Number(($event.source.id).replace('mat-select-',''));
+        let idSelect2 = 'mat-select-' + (i - 2);
+        let idSelect3 = 'mat-select-' + (i + 2);
+        this.selectsZonaBaja?.forEach(itemBaja => {
+          if(idSelect2 === itemBaja.id) {
+            itemBaja.value = null;
+          }
+        });
+        this.selectsZonaAlta?.forEach(itemAlta => {
+          if(idSelect3 === itemAlta.id) {
+            itemAlta.value = null;
+          }
+        });
+      }
+      i++;
+    });
+
+    this.selectsZonaAlta?.forEach((itemAlta)=>{
+      let i = 0;
+      if($event.source.id === itemAlta.id){
+        let i = Number(($event.source.id).replace('mat-select-',''));
+        let idSelect2 = 'mat-select-' + (i - 4);
+        let idSelect3 = 'mat-select-' + (i - 2 );
+        this.selectsZonaBaja?.forEach(itemBaja => {
+          if(idSelect2 === itemBaja.id) {
+            itemBaja.value = null;
+          }
+        });
+        this.selectsZonaMedia?.forEach(itemMedia => {
+          if(idSelect3 === itemMedia.id) {
+            itemMedia.value = null;
+          }
+        });
+      }
+      i++;
+    });
 
   }
+
+  selectCheck($event: any, $filaMatrizComplejidad: MatrizComplejidad) {
+    /*
+    console.log('id', $event.source.id);
+    console.log('value', $event.source.value);
+    */
+
+    this.zonaGroupDeselect($event.source.id, this.selectsZonaBaja,
+      this.selectsZonaMedia, this.selectsZonaAlta, 2, 4);
+
+    this.zonaGroupDeselect($event.source.id, this.selectsZonaMedia,
+      this.selectsZonaBaja, this.selectsZonaAlta, -2, 2);
+
+    this.zonaGroupDeselect($event.source.id, this.selectsZonaAlta,
+      this.selectsZonaMedia, this.selectsZonaBaja, -2, -4);
+
+    switch (Number($event.source.value)) {
+      case 1:
+        $filaMatrizComplejidad.zonaBaja.valor = $event.source.value
+        $filaMatrizComplejidad.zonaMedia.valor = 0
+        $filaMatrizComplejidad.zonaAlta.valor = 0
+        break;
+      case 2:
+        $filaMatrizComplejidad.zonaBaja.valor = 0
+        $filaMatrizComplejidad.zonaMedia.valor = $event.source.value
+        $filaMatrizComplejidad.zonaAlta.valor = 0
+        break;
+      case 3:
+        $filaMatrizComplejidad.zonaBaja.valor = 0
+        $filaMatrizComplejidad.zonaMedia.valor = 0
+        $filaMatrizComplejidad.zonaAlta.valor = $event.source.value
+        break;
+    }
+    this.calcularSumaTotal();
+  }
+
+  private zonaGroupDeselect(idRadio: string, zona1: QueryList<MatRadioButton> | undefined, zona2: QueryList<MatRadioButton> | undefined,
+                            zona3: QueryList<MatRadioButton> | undefined, incrementAux1: number, incrementAux2: number ){
+    zona1?.forEach((itemRadio) => {
+      let i = 0;
+      if (idRadio === itemRadio.id) {
+        let i = Number((idRadio).replace('mat-radio-',''));
+        let aux1 = i + incrementAux1;
+        let aux2 = i + incrementAux2;
+        let idSelect2 = 'mat-radio-' + aux1;
+        let idSelect3 = 'mat-radio-' + aux2;
+
+        this.deselect(zona2, idSelect2);
+        this.deselect(zona3, idSelect3);
+      }
+      i++;
+    });
+
+  }
+
+  private deselect(arrayRadioButtons: QueryList<MatRadioButton> | undefined, identificador: string){
+    arrayRadioButtons?.forEach(itemRadio => {
+      if(identificador === itemRadio.id){
+        itemRadio.checked = null;
+      }
+    });
+  }
+
+
 }

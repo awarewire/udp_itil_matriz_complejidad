@@ -1,0 +1,64 @@
+<div class="container">
+  <canvas id="idChartBarras">{{chartBarras}}</canvas>
+</div>
+
+<div class="container">
+  <canvas id="idChartLineas">{{chartLineas}}</canvas>
+</div>
+
+<div id="complejidad" class="col-lg-8 col-md-8 col-sm-8 container justify-content-center my_div_table">
+
+  <table class="table table-bordered text-center">
+        <tbody>
+          <th colspan="4">
+            <div>
+              <span>Matriz de complejidad</span>
+            </div>
+          </th>
+
+          <tr>
+            <td rowspan="4" class="my_th_text_vertical">
+              <div class="vertical">
+                <span>Negocio</span>
+              </div>
+            </td>
+            <td #BA_A class="my_th_deselect">
+              <div class="div-container-th">(B,A) = A</div>
+            </td>
+            <td #MA_A class="my_th_deselect">
+              <div class="div-container-th">(M,A) = A</div>
+            </td>
+            <td #AA_A class="my_th_deselect">
+              <div class="div-container-th">(A,A) = A</div>
+            </td>
+          </tr>
+          <tr>
+            <td #BM_M class="my_th_deselect">
+              <div class="div-container-th">(B,M) = M</div>
+            </td>
+            <td #MM_M class="my_th_deselect">
+              <div class="div-container-th">(M,M) = M</div>
+            </td>
+            <td #AM_A class="my_th_deselect">
+              <div class="div-container-th">(A,M) = A</div>
+            </td>
+          </tr>
+          <tr>
+            <td #BB_B class="my_th_deselect">
+              <div class="div-container-th">(B,B) = B</div>
+            </td>
+            <td #MB_M class="my_th_deselect">
+              <div class="div-container-th">(M,B) = M</div>
+            </td>
+            <td #AB_A class="my_th_deselect">
+              <div class="div-container-th">(A,B) = A</div>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="3" class="my_th_text_horizontal"><div>Tecnología</div></td>
+          </tr>
+
+        </tbody>
+      </table>
+</div>

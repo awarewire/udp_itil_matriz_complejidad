@@ -1,11 +1,15 @@
-<mat-toolbar color="primary" style="width:100%"> WELCOME</mat-toolbar><br/>
-
 <mat-tab-group mat-align-tabs="center">
   <mat-tab label="Complejidad de negocio">
-    <app-matriz-complejidad-negocio></app-matriz-complejidad-negocio>
+    <app-matriz-complejidad-negocio [complejidadNegocio]="complejidadNegocio"
+    (emisor)="puntosNegocios($event)"></app-matriz-complejidad-negocio>
   </mat-tab>
   <mat-tab label="Complejidad tecnológica">
-    <app-matriz-complejidad-tecnologia></app-matriz-complejidad-tecnologia>
+    <app-matriz-complejidad-tecnologia [complejidadTecnologica]="complejidadTecnologica"
+    (emisor)="puntosTecnologicos($event)"></app-matriz-complejidad-tecnologia>
   </mat-tab>
-  <mat-tab label="Resultado">Content 3</mat-tab>
+  <mat-tab label="Resultado">
+    <app-resultado [complejidadTecnologica]="complejidadTecnologica" [complejidadNegocio]="complejidadNegocio"
+    [arrayPuntosNegocio]="arrayPuntosNegocio" [arrayPuntosTecnologico]="arrayPuntosTecnologicos">
+    </app-resultado>
+  </mat-tab>
 </mat-tab-group>

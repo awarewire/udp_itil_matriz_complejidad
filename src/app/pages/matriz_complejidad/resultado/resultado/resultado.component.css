@@ -1,0 +1,160 @@
+
+mat-grid-list{
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+mat-grid-tile {
+  background: lightblue;
+  vertical-align: middle;
+  width: 50px;
+}
+
+.label-text-vertical {
+  /*border: 1px solid green;*/
+  /*border-right: 10px solid black;*/
+  position: absolute;
+  transform-origin: top left;
+  transform: rotate(-90deg) translateX(-100%);
+  vertical-align: center;
+  color: azure;
+}
+
+.label-text-horizontal{
+  position: absolute;
+  transform-origin: top left;
+  height: 10px;
+  color: azure;
+  justify-content: flex-start !important ;
+  align-items: flex-start !important;
+}
+
+.eje {
+  width: 30px;
+  background: grey;
+  text-align-all: center;
+}
+
+
+.my_div_table{
+  margin: 4% 20%;
+}
+
+
+.my_th_text_vertical{
+  -webkit-writing-mode: vertical-rl;
+  -ms-writing-mode: tb-rl;
+  writing-mode: vertical-rl;
+  background-color: #888888;
+  width: 25px;
+  font-weight: bold;
+  color: aliceblue;
+}
+
+.my_th_text_horizontal{
+  background-color: #888888;
+  font-weight: bold;
+  color: aliceblue;
+}
+
+.my_th_deselect{
+  background: lightblue;
+  height: 60px !important;
+  vertical-align: middle;
+  text-align: center;
+  font-weight: bold;
+  font-style: normal;
+}
+
+.my_th_select{
+  background: #1976d2;
+  height: 60px !important;
+  vertical-align: middle;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/*
+table tr:not(:first-child) th
+{
+  -webkit-writing-mode: vertical-rl;
+  -ms-writing-mode: tb-rl;
+  writing-mode: vertical-rl;
+  display: inline-block;
+}
+table
+{
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th
+{
+  padding: 6px;
+}
+#writing-mode img {
+  width: 35px;
+}
+td
+{
+  width: 40px;
+  border: 1px dotted black;
+}
+
+tr:nth-child(2) th
+{
+  background: #69D2E7;
+}
+tr:nth-child(2) td
+{
+  background: #A7DBD8;
+}
+
+tr:nth-child(3) td
+{
+  background: #F1D4AF;
+}
+tr:nth-child(3) th
+{
+  background: #E08E79;
+}
+tr:nth-child(4) td
+{
+  background: #CFF09E;
+}
+tr:nth-child(4) th
+{
+  background: #79BD9A;
+}
+tr:nth-child(5) td
+{
+  background: #D5DED9;
+}
+tr:nth-child(5) th
+{
+  background: #99B2B7;
+}
+tr:nth-child(6) td
+{
+  background: #EBE3AA;
+}
+tr:nth-child(6) th
+{
+  background: #CAD7B2;
+}
+body
+{
+  font-family: courier new;
+}
+ */
+#credit
+{
+  background: ivory;
+  border-left: 6px skyblue solid;
+  font-size: 14px;
+  margin: 12px 0;
+  padding: 6px;
+}
+

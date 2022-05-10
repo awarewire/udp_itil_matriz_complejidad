@@ -7,6 +7,9 @@ import {MatCardModule} from "@angular/material/card";
 import {CdkAccordionModule} from "@angular/cdk/accordion";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatButtonModule} from "@angular/material/button";
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
   declarations: [],
@@ -20,7 +23,10 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatCardModule,
     CdkAccordionModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatRadioModule
   ]
 })
 export class MaterialModule { }
