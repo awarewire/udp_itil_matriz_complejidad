@@ -235,11 +235,11 @@ export class ResultadoComponent implements OnInit {
         labels: ['Preg 1', 'Preg 2', 'Preg 3', 'Preg 4', 'Preg 5', 'Preg 6', 'Preg 7', 'Preg 8'],
         datasets: [
           {
-            label: 'Negocio',
-            data: this.arrayPuntosNegocio,
-            pointBackgroundColor: 'rgb(255, 99, 132)',
-            pointBorderColor: 'rgb(255, 99, 132)',
-            borderWidth: 5
+          label: 'Negocio',
+          data: this.arrayPuntosNegocio,
+          pointBackgroundColor: 'rgb(255, 99, 132)',
+          pointBorderColor: 'rgb(255, 99, 132)',
+          borderWidth: 5
           },
           {
             label: 'Tecnologia',
@@ -309,7 +309,6 @@ export class ResultadoComponent implements OnInit {
             position: 'nearest',
             callbacks:{
 
-              }
             }
           }
         },
