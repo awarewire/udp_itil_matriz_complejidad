@@ -40,10 +40,12 @@ export class ResultadoComponent implements OnInit {
 
   public chartBarras: any;
   public chartLineas: any;
+  public chartScatter: any;
 
   constructor(private elementRef: ElementRef, private renderer:Renderer2) {}
 
   ngOnInit(): void {
+    this.dibujarGraficoDeDispersion();
     this.dibujarGraficoDeBarras();
     this.dibujarGraficoDeLineas();
   }
@@ -63,6 +65,7 @@ export class ResultadoComponent implements OnInit {
     console.log('totalPuntosNegocio',this.totalPuntosNegocio)
     this.dibujarGraficoDeBarras();
     this.dibujarGraficoDeLineas();
+    this.dibujarGraficoDeDispersion();
   }
 
   private encontrarCuadranteMatriz():void{
@@ -204,11 +207,6 @@ export class ResultadoComponent implements OnInit {
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)'
           ]
-          /*,
-          borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)'
-          ]*/
         }]
       },
       options:{
@@ -235,13 +233,14 @@ export class ResultadoComponent implements OnInit {
       type: 'line',
       data: {
         labels: ['Preg 1', 'Preg 2', 'Preg 3', 'Preg 4', 'Preg 5', 'Preg 6', 'Preg 7', 'Preg 8'],
-        datasets: [{
-          label: 'Negocio',
-          data: this.arrayPuntosNegocio,
-          pointBackgroundColor: 'rgb(255, 99, 132)',
-          pointBorderColor: 'rgb(255, 99, 132)',
-          borderWidth: 5
-        },
+        datasets: [
+          {
+            label: 'Negocio',
+            data: this.arrayPuntosNegocio,
+            pointBackgroundColor: 'rgb(255, 99, 132)',
+            pointBorderColor: 'rgb(255, 99, 132)',
+            borderWidth: 5
+          },
           {
             label: 'Tecnologia',
             data: this.arrayPuntosTecnologico,
@@ -277,5 +276,96 @@ export class ResultadoComponent implements OnInit {
       }
     });
   }
+
+  dibujarGraficoDeDispersion(){
+    let htmlRef = this.elementRef.nativeElement.querySelector(`#idChartScatter`);
+    if (this.chartScatter) {
+      this.chartScatter.destroy();
+    }
+    this.chartScatter = new Chart(htmlRef, {
+      type:'scatter',
+      data:{
+        labels: ['1','2'],
+        datasets: [
+          {
+            label: 'Dataset 1',
+            data: [
+              {
+                x: this.totalPuntosNegocio,
+                y: this.totalPuntosTecnologicos
+              }
+            ],
+            pointRadius: 20
+          }]
+      },
+      options:{
+        plugins:{
+          title: {
+            display: true,
+            text: 'Matriz de complejidad'
+          },
+          tooltip:{
+            enabled: true,
+            position: 'nearest',
+            callbacks:{
+
+              }
+            }
+          }
+        },
+        scales:{
+          x:{
+            beginAtZero: false,
+            min:8,
+            max:24,
+            ticks: {
+              stepSize: 1
+            }
+          },
+          y:{
+            beginAtZero: false,
+            min:8,
+            max:24,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      },
+      plugins:[
+        {
+          id:'quadrant',
+          beforeDatasetsDraw(chart){
+
+            const {ctx, chartArea: {left, top, right, bottom}, scales: {x, y}} = chart;
+            const midX = x.getPixelForValue(8);
+            const midY = y.getPixelForValue(8);
+
+            //const midY_top = y.getPixelForValue(24);
+            const midX_11 = x.getPixelForValue(11.65);
+            const midX_12 = x.getPixelForValue(12);
+            const midX_19 = x.getPixelForValue(15.65);
+            const midX_20 = x.getPixelForValue(20);
+
+            const midX_end = x.getPixelForValue(11.65);
+
+            ctx.save();
+
+            ctx.fillStyle = 'rgba(75, 192, 192, 0.5)';
+            ctx.fillRect(midX, top, midX_11, midY - top);
+
+            ctx.fillStyle = 'rgba(255, 206, 86, 0.5)';
+            ctx.fillRect(midX_12, top, midX_19, midY - top);
+
+            ctx.fillStyle = 'rgba(255, 99, 132, 0.5)';
+            ctx.fillRect(midX_20, top, midX_end, midY - top);
+
+            ctx.restore();
+          }
+        }
+      ]
+    });
+  }
+
 
 }
